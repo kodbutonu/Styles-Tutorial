@@ -1,4 +1,38 @@
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const ControlContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: 0.5rem;
+  background-color:${({invalid})=>invalid?"#f87171":"#6b7280"}
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:${({invalid})=>invalid?"#f87171":"#6b7280"};
+`;
+
+const Input = styled.input`
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  &.invalid {
+    border-color: red;
+  }
+`;
+
+const Paragraph = styled.p`
+  margin: 0;
+`;
 
 export default function AuthInputs() {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -22,32 +56,34 @@ export default function AuthInputs() {
 
   return (
     <div id="auth-inputs">
-      <div className="controls">
-        <p>
-          <label>Email</label>
-          <input
-            type="email"
-            className={emailNotValid ? 'invalid' : undefined}
-            onChange={(event) => handleInputChange('email', event.target.value)}
-          />
-        </p>
-        <p>
-          <label>Password</label>
-          <input
-            type="password"
-            className={passwordNotValid ? 'invalid' : undefined}
-            onChange={(event) =>
-              handleInputChange('password', event.target.value)
-            }
-          />
-        </p>
-      </div>
-      <div className="actions">
-        <button type="button" className="text-button">
-          Create a new account
-        </button>
-        <button className='button' onClick={handleLogin}>Sign In</button>
-      </div>
+      <ControlContainer>
+        <div className="controls">
+          <Paragraph className='paragraph'>
+            <Label className={emailNotValid ? 'invalid' : ''}>Email</Label>
+            <Input
+              type="email"
+              className={emailNotValid ? 'invalid' : undefined}
+              onChange={(event) => handleInputChange('email', event.target.value)}
+            />
+          </Paragraph>
+          <Paragraph className='paragraph'>
+            <Label className={passwordNotValid ? 'invalid' : ''}>Password</Label>
+            <Input
+              type="password"
+              className={passwordNotValid ? 'invalid' : undefined}
+              onChange={(event) =>
+                handleInputChange('password', event.target.value)
+              }
+            />
+          </Paragraph>
+        </div>
+        <div className="actions">
+          <button type="button" className="text-button">
+            Create a new account
+          </button>
+          <button className='button' onClick={handleLogin}>Sign In</button>
+        </div>
+      </ControlContainer>
     </div>
   );
 }
